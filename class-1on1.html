@@ -531,6 +531,39 @@
   .logo,.logo span{font-size:22px !important}
   }
 </style>
+<style id="tp-style">
+.tp-overlay{position:fixed;inset:0;background:rgba(20,28,45,.55);display:none;align-items:center;justify-content:center;z-index:2000;padding:18px}
+.tp-overlay.tp-open{display:flex}
+.tp-modal{background:#fff;border-radius:18px;max-width:452px;width:100%;max-height:90vh;overflow-y:auto;padding:22px 20px 0;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.32);font-family:'Noto Sans KR',sans-serif;text-align:left}
+.tp-close{position:absolute;top:11px;right:13px;background:none;border:none;font-size:27px;line-height:1;color:#9aa3b2;cursor:pointer;padding:3px 6px;z-index:1}
+.tp-close:hover{color:#444}
+.tp-title{font-size:19px;font-weight:900;color:#1f2d4e;margin:0 26px 7px 0;line-height:1.35}
+.tp-intro{font-size:13.5px;color:#555;line-height:1.5;margin:0 0 11px}
+.tp-fact{display:flex;gap:7px;font-size:13.5px;line-height:1.45;color:#333;margin-bottom:7px}
+.tp-fact>span{flex-shrink:0}
+.tp-fact b{color:#1f2d4e}
+.tp-note{background:#fff7f6;border:1px solid #f6d5d1;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.55;color:#8a4b45;margin:11px 0 14px}
+.tp-note b{color:#c0392b}
+.tp-sec{font-size:13px;font-weight:800;color:#2f6df6;margin:0 0 8px}
+.tp-steps{list-style:none;padding:0;margin:0 0 14px;counter-reset:tp}
+.tp-steps li{position:relative;padding:1px 0 0 28px;font-size:13px;line-height:1.45;color:#333;margin-bottom:7px}
+.tp-steps li b{color:#1f2d4e}
+.tp-steps li::before{content:counter(tp);counter-increment:tp;position:absolute;left:0;top:0;width:20px;height:20px;background:#2f6df6;color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.tp-info{background:#f3f7ff;border:1px solid #d4e2fb;border-radius:12px;padding:12px 13px;margin-bottom:14px}
+.tp-info-head{font-size:12.5px;font-weight:800;color:#2f6df6;line-height:1.5;margin-bottom:9px}
+.tp-list{list-style:none;padding:0;margin:0 0 11px}
+.tp-list li{font-size:12.5px;line-height:1.62;color:#333;padding-left:13px;position:relative}
+.tp-list li::before{content:'·';position:absolute;left:3px;color:#2f6df6;font-weight:900}
+.tp-copy-btn{width:100%;background:#eaf1ff;border:1.5px solid #2f6df6;color:#2f6df6;font-weight:800;font-size:13px;padding:11px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .15s,color .15s,border-color .15s}
+.tp-copy-btn:hover{background:#2f6df6;color:#fff}
+.tp-copy-btn svg{flex-shrink:0}
+.tp-copy-btn.tp-copied{background:#27ae60;border-color:#27ae60;color:#fff}
+.tp-cta{position:sticky;bottom:0;background:#fff;display:flex;flex-direction:column;gap:8px;align-items:stretch;padding:11px 0 16px;margin-top:2px;box-shadow:0 -12px 14px -10px rgba(0,0,0,.16)}
+.tp-cta-kakao{display:flex;align-items:center;justify-content:center;gap:7px;background:#2f6df6;color:#fff;text-decoration:none;font-weight:800;font-size:15px;padding:14px;border-radius:11px;transition:background .15s}
+.tp-cta-kakao:hover{background:#2257d8}
+.tp-cta-close{background:none;border:none;color:#8a93a3;font-size:13px;cursor:pointer;padding:4px;font-weight:600}
+.tp-cta-close:hover{color:#444;text-decoration:underline}
+</style>
 </head>
 <body>
 <header>
@@ -781,9 +814,9 @@
     </div>
 
     <div class="gd-trial-wrap">
-      <a class="gd-trial-btn" href="https://open.kakao.com/o/spBZLsU" target="_blank">
+      <a class="gd-trial-btn" href="#" onclick="tpOpen();return false;">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-        등록 전 시범수업 먼저 받아보기
+        수업 등록 전 시범수업 참여해 보기
       </a>
     </div>
   </div>
@@ -883,6 +916,75 @@ function toggleModule(el){
 document.querySelectorAll('#navMenu a').forEach(function(a){
   a.addEventListener('click',function(){document.getElementById('navMenu').classList.remove('open');});
 });
+</script>
+<!-- 시범수업 안내 팝업 -->
+<div class="tp-overlay" id="tpOverlay" onclick="if(event.target===this)tpClose()">
+  <div class="tp-modal" role="dialog" aria-modal="true" aria-label="시범수업 신청 안내">
+    <button class="tp-close" type="button" onclick="tpClose()" aria-label="닫기">&times;</button>
+    <h3 class="tp-title">🎯 등록 전, 실제 수업을 먼저 받아보세요</h3>
+    <p class="tp-intro">정식 등록을 정하기 전에, 선생님과 1:1 시범수업을 직접 경험하실 수 있어요.</p>
+
+    <div class="tp-fact"><span>✅</span><div><b>수업 시간</b> — 약 40~80분. 학생의 <b>수업 목적과 이해도</b>에 따라 진행돼요.</div></div>
+    <div class="tp-fact"><span>✅</span><div><b>수업 방식</b> — 구글 미트(Google Meet) 화상수업이에요. 선생님이 링크를 보내드리면 조용한 곳에서 편하게 받으시면 돼요.</div></div>
+    <div class="tp-fact"><span>✅</span><div><b>예약금</b> — 15,000원 (예약 확정용)</div></div>
+
+    <div class="tp-note">💡 예약금은 환불되지 않아요. 시범수업도 선생님이 <b>한 분만을 위해 시간을 비우고</b> 수준·목적에 맞춰 준비하는 ‘진짜 수업’이라, 영어를 진지하게 시작하고 싶은 분들을 위한 예약 확정 비용입니다.</div>
+
+    <p class="tp-sec">📌 진행 순서</p>
+    <ol class="tp-steps">
+      <li>카카오톡 1:1 상담으로 시범수업 <b>날짜·시간 확정</b></li>
+      <li>예약금(15,000원) <b>입금</b> — 예약 확정</li>
+      <li>수업 전 간단한 <b>전화 레벨 테스트</b> — 약 3분, 선생님이 <b>영어로 3~5가지 질문</b>을 드려요</li>
+      <li>구글 미트로 <b>시범수업 진행</b></li>
+    </ol>
+
+    <div class="tp-info">
+      <div class="tp-info-head">💬 상담 시작 시 아래를 함께 보내주시면 더 빠르게 안내받으실 수 있어요</div>
+      <ul class="tp-list">
+        <li>성함</li>
+        <li>연락처(휴대폰)</li>
+        <li>희망 요일/시간대 (해외 거주 시 국가·시차)</li>
+        <li>현재 영어 수준</li>
+        <li>수업 목적</li>
+        <li>연령대 / 학생 여부</li>
+        <li>선생님 선호 (원어민/한국인)</li>
+        <li>입금자 성함</li>
+      </ul>
+      <button class="tp-copy-btn" id="tpCopyBtn" type="button" onclick="tpCopy()">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        <span id="tpCopyLabel">신청 양식 한 번에 복사하기</span>
+      </button>
+    </div>
+
+    <div class="tp-cta">
+      <a class="tp-cta-kakao" href="https://open.kakao.com/o/spBZLsU" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.79 1.86 5.24 4.68 6.65-.15.53-.78 2.7-.8 2.87 0 0-.02.13.07.18.08.05.18.01.18.01.23-.03 2.65-1.74 3.5-2.34.76.11 1.55.17 2.37.17 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>
+        카카오톡으로 신청하기
+      </a>
+      <button class="tp-cta-close" type="button" onclick="tpClose()">다음에 할게요</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var COPY_TEXT = [
+    '[빨톡영어 시범수업 신청]',
+    '성함: ',
+    '연락처(휴대폰): ',
+    '희망 요일/시간대(해외 거주 시 국가·시차): ',
+    '현재 영어 수준: ',
+    '수업 목적: ',
+    '연령대/학생 여부: ',
+    '선생님 선호(원어민/한국인): ',
+    '입금자 성함: '
+  ].join('\n');
+  window.tpOpen=function(){var o=document.getElementById('tpOverlay');if(o){o.classList.add('tp-open');document.body.style.overflow='hidden';}};
+  window.tpClose=function(){var o=document.getElementById('tpOverlay');if(o){o.classList.remove('tp-open');document.body.style.overflow='';}};
+  function tpDone(){var b=document.getElementById('tpCopyBtn'),l=document.getElementById('tpCopyLabel');if(b&&l){b.classList.add('tp-copied');l.textContent='복사됐어요! 카카오톡에 붙여넣어 작성해주세요';setTimeout(function(){b.classList.remove('tp-copied');l.textContent='신청 양식 한 번에 복사하기';},2600);}}
+  function tpFallback(t){try{var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);tpDone();}catch(e){alert('복사가 지원되지 않는 환경이에요. 직접 입력해 주세요.');}}
+  window.tpCopy=function(){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(COPY_TEXT).then(tpDone).catch(function(){tpFallback(COPY_TEXT);});}else{tpFallback(COPY_TEXT);}};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')window.tpClose();});
+})();
 </script>
 </body>
 </html>

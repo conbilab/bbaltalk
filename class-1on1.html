@@ -192,7 +192,7 @@
   table.gd-price .dur{font-weight:700;white-space:nowrap;background:#fafafa}
   table.gd-price .pcell{white-space:nowrap}
   table.gd-price .pcell .was{display:inline-block;position:relative;color:#1a1a1a;font-weight:700;font-size:14px}
-  table.gd-price .pcell .was::after{content:"";position:absolute;left:-3px;right:-3px;top:50%;margin-top:-1px;height:2px;background:rgba(232,52,42,.5);transform:rotate(-12deg)}
+  table.gd-price .pcell .was::after{content:"";position:absolute;left:-3px;right:-3px;top:50%;margin-top:-1.5px;height:3px;background:rgba(232,52,42,.8);transform:rotate(-16deg)}
   table.gd-price .pcell .now{display:block;color:var(--blue);font-weight:900;font-size:16px;margin-top:4px}
   table.gd-price td.feat-cell{background:#fff5f5}
   table.gd-price td.feat-cell .now{color:var(--red)}
@@ -786,49 +786,6 @@
     </div>
   </div>
 
-  <!-- ===== 수업 횟수는 자유롭게 (추천 패키지) ===== -->
-  <div class="gd-block">
-    <div class="gd-sec-title">수업 횟수는 자유롭게</div>
-    <div class="gd-sub-title">12회 · 24회 패키지 · 수업 시간(50·80분)도 선택 가능</div>
-    <p class="gd-howto-lead"><strong>일주일에 한 번, 두 번, 세 번?</strong> 횟수도 자유롭게 정할 수 있어요.<br>필요에 따라 <strong>12회 또는 24회</strong>로 등록하고,<br>수업 시간(50·80분)도 자유롭게 선택할 수 있어요. 횟수가 많을수록 할인이 커져요.</p>
-
-    <div class="gd-plans two">
-
-      <!-- 12회 -->
-      <div class="gd-plan">
-        <div class="plan-rec" style="background:var(--green)">꾸준히 시작하고 싶다면</div>
-        <h4>12회 패키지</h4>
-        <div class="ptype green">12회 등록 · 20% 할인</div>
-        <div class="gd-plan-meta">
-          <div class="m-time"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>12회</div>
-          <div class="m-detail"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50분 · 80분 중 선택</div>
-        </div>
-        <div class="plan-point">실력 변화를 체감하기 좋은 구간이에요. 12회 등록 시 정상가에서 20% 할인된 금액으로 시작할 수 있어요.</div>
-      </div>
-
-      <!-- 24회 (가장 인기) -->
-      <div class="gd-plan feat">
-        <span class="pop-badge">가장 많이 선택</span>
-        <div class="plan-rec" style="background:var(--red)">제대로 끌어올리고 싶다면</div>
-        <h4>24회 패키지</h4>
-        <div class="ptype red">24회 등록 · 25% 할인</div>
-        <div class="gd-plan-meta">
-          <div class="m-time"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>24회</div>
-          <div class="m-detail"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50분 · 80분 중 선택</div>
-        </div>
-        <div class="plan-point">단기간에 확실히 끌어올리고 싶은 분께 맞는 집중 패키지예요. 25% 할인으로 혜택이 가장 큽니다.</div>
-      </div>
-
-    </div>
-
-    <div class="gd-trial-wrap">
-      <a class="gd-trial-btn" href="#" onclick="tpOpen();return false;">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-        수업 등록 전 시범수업 참여해 보기
-      </a>
-    </div>
-  </div>
-
   <!-- ===== 상세 수업료 안내 ===== -->
   <div class="gd-block">
     <div class="gd-sec-title">상세 수업료 안내</div>
@@ -841,25 +798,34 @@
       <table class="gd-price">
         <thead>
           <tr>
-            <th colspan="2">구분 / 수업시간</th>
-            <th>12회<br><span class="off"><span class="pct">20%</span></span></th>
-            <th class="feat-col">24회<br><span class="off"><span class="pct">25%</span></span></th>
+            <th>구분 / 수업시간</th>
+            <th>12회<br><span class="off"><span class="pct">10%</span></span></th>
+            <th>24회<br><span class="off"><span class="pct">15%</span></span></th>
+            <th class="feat-col">48회<br><span class="off"><span class="pct">20%</span></span></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="ch" rowspan="2"><span class="cn">1:1<br>온라인</span></td>
-            <td class="dur">50분</td>
-            <td class="pcell"><span class="was">₩660,000</span><span class="now">₩528,000</span></td>
-            <td class="pcell feat-cell"><span class="was">₩1,320,000</span><span class="now">₩990,000</span></td>
+            <td class="ch"><span class="cn">1:1<br>온라인</span><span class="cdur" style="display:block;font-size:15px;font-weight:900;margin-top:6px">50분</span></td>
+            <td class="pcell"><span class="was">₩720,000</span><span class="now">₩648,000</span></td>
+            <td class="pcell"><span class="was">₩1,440,000</span><span class="now">₩1,224,000</span></td>
+            <td class="pcell feat-cell"><span class="was">₩2,880,000</span><span class="now">₩2,304,000</span></td>
           </tr>
           <tr>
-            <td class="dur">80분</td>
-            <td class="pcell"><span class="was">₩780,000</span><span class="now">₩624,000</span></td>
-            <td class="pcell feat-cell"><span class="was">₩1,560,000</span><span class="now">₩1,170,000</span></td>
+            <td class="ch"><span class="cn">1:1<br>온라인</span><span class="cdur" style="display:block;font-size:15px;font-weight:900;margin-top:6px">80분</span></td>
+            <td class="pcell"><span class="was">₩960,000</span><span class="now">₩864,000</span></td>
+            <td class="pcell"><span class="was">₩1,920,000</span><span class="now">₩1,632,000</span></td>
+            <td class="pcell feat-cell"><span class="was">₩3,840,000</span><span class="now">₩3,072,000</span></td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="gd-trial-wrap">
+      <a class="gd-trial-btn" href="#" onclick="tpOpen();return false;">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        수업 등록 전 시범수업 참여해 보기
+      </a>
     </div>
   </div>
 

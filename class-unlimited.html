@@ -501,6 +501,18 @@
   </div>
 </header>
 
+<!-- ===== [대기 안내] 정원 마감 배너 : 수업이 다시 열리면 이 <div class="wl-banner"> 블록만 삭제하세요 ===== -->
+<div class="wl-banner" id="wlBanner" role="alert">
+  <div class="wl-banner-inner">
+    <span class="wl-banner-badge">정원 마감</span>
+    <div class="wl-banner-text">
+      <strong class="wl-banner-big">이 수업은 현재 신청하실 수 없습니다.<br>대기만 하실 수 있습니다.</strong>
+      <span class="wl-banner-sub">무제한 집중반은 정원이 모두 찼어요. 자리가 나면 순서대로 안내드립니다.</span>
+    </div>
+    <button type="button" class="wl-banner-btn" onclick="wlOpen()">대기 신청하기 →</button>
+  </div>
+</div>
+
 <div class="gd-standalone">
 <div class="gd">
 
@@ -704,9 +716,9 @@
     </div>
 
     <div class="gd-trial-wrap">
-      <a class="gd-trial-btn" href="#" onclick="tpOpen();return false;">
+      <a class="gd-trial-btn" href="#" onclick="wlOpen();return false;">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-        수업 등록 전 시범수업 참여해 보기
+        대기자 명단 신청하기
       </a>
     </div>
   </div>
@@ -784,6 +796,7 @@
 
   <!-- ===== 최종 CTA (참고 포맷 두 버튼) ===== -->
   <div class="gd-final-cta">
+     <a class="pill pill-blue" href="#" onclick="wlOpen();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>대기 신청하기</a>
     <a class="pill pill-kakao" href="https://open.kakao.com/o/spBZLsU" target="_blank"><svg class="tk-icon" viewBox="0 0 36 36" aria-hidden="true"><path d="M18 5C10.82 5 5 9.58 5 15.23c0 3.63 2.42 6.82 6.06 8.62-.27.99-.97 3.6-1.11 4.16-.17.69.25.68.53.49.22-.15 3.48-2.36 4.9-3.33.85.12 1.73.19 2.62.19 7.18 0 13-4.58 13-10.23S25.18 5 18 5z"/></svg>1:1 맞춤형 수업 일정 상담하기</a>
     <a class="pill pill-blue" href="index.html#classes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>다른 수업 과정 한눈에 보기</a>
   </div>
@@ -887,5 +900,159 @@ document.querySelectorAll('#navMenu a').forEach(function(a){
   document.addEventListener('keydown',function(e){if(e.key==='Escape')window.tpClose();});
 })();
 </script>
+
+<!-- ===== [대기 안내] 무제한 집중반 정원 마감 · 대기 신청 팝업 ===== -->
+<style id="wl-style">
+.wl-banner{background:linear-gradient(135deg,#2f6df6,#1b4fc0);color:#fff;padding:18px 16px}
+.wl-banner-inner{max-width:940px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;text-align:center}
+.wl-banner-badge{flex:0 0 auto;background:none;color:#fff;font-weight:800;font-size:13.5px;padding:0;letter-spacing:1.5px}
+.wl-banner-text{display:flex;flex-direction:column;gap:5px}
+.wl-banner-big{font-size:27px;font-weight:900;line-height:1.35;letter-spacing:-.4px}
+.wl-banner-sub{font-size:15px;opacity:.95;font-weight:500}
+.wl-banner-btn{flex:0 0 auto;background:#fff;color:#1b4fc0;border:none;font-weight:900;font-size:16px;padding:13px 22px;border-radius:12px;cursor:pointer;box-shadow:0 5px 16px rgba(0,0,0,.2);transition:transform .12s}
+.wl-banner-btn:hover{transform:translateY(-2px)}
+@media(max-width:640px){.wl-banner-big{font-size:21px}.wl-banner-sub{font-size:13.5px}.wl-banner-btn{width:100%;padding:14px}.wl-banner-inner{gap:12px}}
+
+.wl-overlay{position:fixed;inset:0;background:rgba(20,28,45,.62);display:none;align-items:center;justify-content:center;z-index:3000;padding:18px}
+.wl-overlay.wl-open{display:flex}
+.wl-modal{background:#fff;border-radius:18px;max-width:480px;width:100%;max-height:92vh;overflow-y:auto;padding:26px 24px 22px;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.32)}
+.wl-close{position:absolute;top:13px;right:15px;background:none;border:none;font-size:27px;line-height:1;color:#9aa3b2;cursor:pointer}
+.wl-badge{display:block;text-align:center;background:none;color:#1b4fc0;font-weight:800;font-size:13px;padding:0;letter-spacing:1.5px;margin-bottom:10px}
+.wl-big{font-size:23px;font-weight:900;color:#1f2d4e;line-height:1.4;margin-bottom:9px;text-align:center}
+.wl-big em{color:#2f6df6;font-style:normal}
+.wl-intro{font-size:14.5px;color:#5a6472;margin-bottom:18px;line-height:1.6;text-align:center}
+.wl-field{margin-bottom:13px}
+.wl-field label{display:block;font-size:13.5px;font-weight:700;color:#2b3648;margin-bottom:6px}
+.wl-field .req{color:#2f6df6}
+.wl-field input,.wl-field select,.wl-field textarea{width:100%;border:1.5px solid #d7deea;border-radius:10px;padding:11px 12px;font-size:15px;font-family:inherit;color:#1a1a1a;background:#fff}
+.wl-field input:focus,.wl-field select:focus,.wl-field textarea:focus{outline:none;border-color:#2f6df6;box-shadow:0 0 0 3px rgba(47,109,246,.12)}
+.wl-field textarea{resize:vertical;min-height:58px}
+.wl-submit{width:100%;background:#2f6df6;color:#fff;border:none;font-weight:900;font-size:16.5px;padding:15px;border-radius:12px;cursor:pointer;margin-top:6px;transition:background .15s}
+.wl-submit:hover{background:#1b4fc0}
+.wl-submit:disabled{opacity:.6;cursor:default}
+.wl-msg{font-size:13.5px;font-weight:700;margin-top:11px;display:none;line-height:1.55}
+.wl-kakao{display:flex;align-items:center;justify-content:center;gap:8px;background:#fae100;color:#3a1d1d;text-decoration:none;font-weight:800;font-size:14.5px;padding:12px;border-radius:11px;margin-top:12px}
+.wl-alt{text-align:center;font-size:12.5px;color:#8a93a3;margin-top:11px}
+.wl-alt a{color:#2f6df6;font-weight:700;text-decoration:none;cursor:pointer}
+.wl-done{text-align:center;padding:16px 4px 6px}
+.wl-done .chk{font-size:48px}
+.wl-done h4{font-size:21px;color:#1f2d4e;margin:8px 0 6px;font-weight:900}
+.wl-done p{font-size:14.5px;color:#5a6472;line-height:1.6}
+@media(max-width:640px){.wl-big{font-size:20px}.wl-modal{padding:22px 18px 18px}}
+</style>
+
+<div class="wl-overlay" id="wlOverlay" onclick="if(event.target===this)wlClose()">
+  <div class="wl-modal" role="dialog" aria-modal="true" aria-label="무제한 집중반 대기 신청">
+    <button class="wl-close" type="button" onclick="wlClose()" aria-label="닫기">&times;</button>
+
+    <div id="wlFormWrap">
+      <span class="wl-badge">정원 마감</span>
+      <div class="wl-big"><em>이 수업은 현재 신청하실 수 없습니다.</em><br>대기만 하실 수 있습니다.</div>
+      <button type="button" onclick="wlClose()" style="display:table;margin:2px auto 16px;background:none;border:1.5px solid #cdd8ea;color:#5a6472;font-weight:700;font-size:14px;padding:9px 20px;border-radius:10px;cursor:pointer">그래도 수업 둘러보기</button>
+      <p class="wl-intro">무제한 집중반은 현재 정원이 모두 찼습니다. 대기를 원하시면 아래 정보를 남겨 주세요. 자리가 나는 대로 순서대로 연락드립니다.</p>
+
+      <form id="wlForm" novalidate>
+        <div class="wl-field"><label>이름 <span class="req">*</span></label><input name="이름" type="text" autocomplete="name" placeholder="홍길동" required></div>
+        <div class="wl-field"><label>전화번호 <span class="req">*</span></label><input name="전화번호" type="tel" autocomplete="tel" placeholder="010-1234-5678" required></div>
+        <div class="wl-field"><label>희망 수업 / 시간대 <span class="req">*</span></label><input name="희망수업" type="text" placeholder="예: 무제한 집중반 / 평일 저녁" required></div>
+        <div class="wl-field"><label>수업 목적 <span class="req">*</span></label><input name="수업목적" type="text" placeholder="예: 해외여행, 업무, 이직, 시험" required></div>
+        <div class="wl-field"><label>현재 영어 레벨 <span class="req">*</span></label>
+          <select name="현재레벨" required>
+            <option value="" disabled selected>선택해 주세요</option>
+            <option>왕초보 (거의 처음이에요)</option>
+            <option>초급 (기초 문장 가능)</option>
+            <option>중급 (일상 대화 가능)</option>
+            <option>고급 (자유로운 대화)</option>
+            <option>잘 모르겠어요</option>
+          </select>
+        </div>
+        <div class="wl-field"><label>남기실 말 (선택)</label><textarea name="메모" placeholder="궁금한 점이나 추가로 전하고 싶은 내용"></textarea></div>
+        <button type="submit" class="wl-submit" id="wlSubmit">대기 신청 보내기</button>
+        <div class="wl-msg" id="wlMsg"></div>
+      </form>
+
+      <a class="wl-kakao" href="https://open.kakao.com/o/spBZLsU" target="_blank" rel="noopener">💬 카카오톡으로 문의하기</a>
+      <p class="wl-alt">전송이 안 되나요? <a id="wlMail">이메일로 보내기</a></p>
+    </div>
+
+    <div id="wlDone" class="wl-done" style="display:none">
+      <div class="chk">✅</div>
+      <h4>대기 신청이 접수되었습니다!</h4>
+      <p>자리가 나는 대로 순서대로 연락드릴게요.<br>감사합니다 🙏</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   무제한 집중반 — 정원 마감 / 대기 신청 팝업
+   ---------------------------------------------------------------------
+   [중요] 폼 제출을 '내 이메일로 자동 전송'하려면 아래 FORMSPREE_ENDPOINT 한 줄만
+   본인 주소로 바꾸면 됩니다. (무료, 5분)
+     1) https://formspree.io 접속 → 구글 계정으로 무료 가입
+     2) New Form → 받을 이메일에 paigraphy@gmail.com 입력 → 폼 생성
+     3) 생성된 주소(예: https://formspree.io/f/abcdwxyz)를
+        아래 큰따옴표 "" 안의 https://formspree.io/f/YOUR_FORM_ID 를 지우고 붙여넣기
+   ※ 설정 전에도 학생은 '카카오톡' 또는 '이메일로 보내기'로 신청할 수 있어요.
+   ※ 수업이 다시 열리면: 위의 wl-banner 배너 블록을 지우고,
+     메인 버튼의 onclick="wlOpen()" 을 원래 onclick="tpOpen()" 으로 되돌리면 됩니다.
+===================================================================== */
+(function(){
+  var FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+  var OWNER_EMAIL = "paigraphy@gmail.com";
+  var READY = FORMSPREE_ENDPOINT.indexOf("YOUR_FORM_ID") === -1;
+
+  var ov   = document.getElementById('wlOverlay');
+  var form = document.getElementById('wlForm');
+  var msg  = document.getElementById('wlMsg');
+  var btn  = document.getElementById('wlSubmit');
+
+  window.wlOpen  = function(){ if(ov){ ov.classList.add('wl-open'); document.body.style.overflow='hidden'; } };
+  window.wlClose = function(){ if(ov){ ov.classList.remove('wl-open'); document.body.style.overflow=''; } };
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') window.wlClose(); });
+
+  function v(n){ var el=form.elements[n]; return el ? String(el.value).trim() : ''; }
+  function data(){ return {'이름':v('이름'),'전화번호':v('전화번호'),'희망수업':v('희망수업'),'수업목적':v('수업목적'),'현재레벨':v('현재레벨'),'메모':v('메모')}; }
+  function valid(d){ return d['이름'] && d['전화번호'] && d['희망수업'] && d['수업목적'] && d['현재레벨']; }
+  function showMsg(t,color){ msg.textContent=t; msg.style.color=color||'#b45309'; msg.style.display='block'; }
+
+  function mailto(d){
+    var subject='[무제한 집중반 대기 신청] '+d['이름'];
+    var body=['이름: '+d['이름'],'전화번호: '+d['전화번호'],'희망 수업/시간대: '+d['희망수업'],'수업 목적: '+d['수업목적'],'현재 레벨: '+d['현재레벨'],'메모: '+(d['메모']||'-')].join('\n');
+    return 'mailto:'+OWNER_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  }
+  function done(){ document.getElementById('wlFormWrap').style.display='none'; document.getElementById('wlDone').style.display='block'; }
+
+  var mailLink=document.getElementById('wlMail');
+  if(mailLink){ mailLink.addEventListener('click', function(e){ e.preventDefault(); var d=data(); if(!valid(d)){ showMsg('먼저 이름·전화번호·희망수업·목적·레벨을 입력해 주세요.'); return; } window.location.href=mailto(d); }); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var d=data();
+    if(!valid(d)){ showMsg('필수 항목(*)을 모두 입력해 주세요.'); return; }
+    msg.style.display='none';
+
+    if(READY){
+      btn.disabled=true; btn.textContent='보내는 중…';
+      fetch(FORMSPREE_ENDPOINT, {method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'}, body:JSON.stringify(d)})
+        .then(function(r){ if(r.ok){ done(); } else { throw new Error('bad'); } })
+        .catch(function(){
+          btn.disabled=false; btn.textContent='대기 신청 보내기';
+          showMsg('자동 전송이 원활하지 않아요. 아래 카카오톡 또는 이메일로 보내 주세요.');
+          window.location.href=mailto(d);
+        });
+    } else {
+      window.location.href=mailto(d);
+      showMsg('메일 앱이 열리면 [보내기]를 눌러 주세요. 열리지 않으면 아래 카카오톡으로 신청해 주세요.', '#2b3648');
+    }
+  });
+
+  // 페이지 진입 시 1회 자동 노출 (같은 방문 세션에서는 한 번만)
+  try{
+    if(!sessionStorage.getItem('wlSeen')){ setTimeout(window.wlOpen, 600); sessionStorage.setItem('wlSeen','1'); }
+  }catch(err){ setTimeout(window.wlOpen, 600); }
+})();
+</script>
+
 </body>
 </html>

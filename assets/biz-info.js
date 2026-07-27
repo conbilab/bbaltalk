@@ -8,12 +8,15 @@
 
 window.BBALTALK_BIZ = {
 
-  상호:        '피스웍스',              // 사업자등록증의 상호 그대로
+  // ▼ 사업자등록증과 100% 동일하게 (심사 기준 1번)
+  상호:        '콘텐츠 비즈니스 연구소',
   대표자:      '조재빈',
   사업자등록번호: '731-24-00997',
-  통신판매업신고: '제0000-지역-00000호',  // ⬅️ 채워주세요 (없으면 국민카드 심사 제외)
-  주소:        '사업장 주소를 입력해 주세요',  // ⬅️ 채워주세요 (등록증 주소)
-  전화:        '000-0000-0000',          // ⬅️ 채워주세요 (유선·휴대폰·대표번호 모두 가능)
+  주소:        '대전광역시 유성구 테크노5로 43-4(관평동)',
+  전화:        '010-9413-0359',          // 휴대폰번호도 유선번호 대체 인정
+  // ▲ 여기까지가 심사 필수 5개 항목
+
+  통신판매업신고: '',        // ⬅️ 신고번호를 넣으면 자동으로 표시돼요 (비워두면 숨김)
   이메일:      'paigraphy@gmail.com',
   개인정보책임자: '조재빈',
 
@@ -62,6 +65,16 @@ window.BBALTALK_BIZ = {
     f.id = 'bbtBizFooter';
 
     var sep = '<b class="bz-sep">|</b>';
+
+    // 값이 비어있는 항목은 표시하지 않습니다.
+    // (미입력 자리표시자가 노출되면 심사에서 오히려 감점돼요)
+    function row(pairs) {
+      var out = pairs
+        .filter(function (p) { return p[1] && String(p[1]).trim(); })
+        .map(function (p) { return '<span>' + esc(p[0]) + ' : ' + esc(p[1]) + '</span>'; });
+      return out.length ? '<p class="bz-row">' + out.join(sep) + '</p>' : '';
+    }
+
     f.innerHTML =
       '<div class="bz-in">' +
         '<div class="bz-links">' +
@@ -70,21 +83,13 @@ window.BBALTALK_BIZ = {
           '<a href="/refund.html">환불·취소 규정</a>' +
           '<a href="' + esc(B.카카오톡 || '#') + '" target="_blank" rel="noopener">고객센터</a>' +
         '</div>' +
-        '<p class="bz-row">' +
-          '<span>상호 : ' + esc(B.상호) + '</span>' + sep +
-          '<span>대표자 : ' + esc(B.대표자) + '</span>' + sep +
-          '<span>사업자등록번호 : ' + esc(B.사업자등록번호) + '</span>' + sep +
-          '<span>통신판매업신고 : ' + esc(B.통신판매업신고) + '</span>' +
-        '</p>' +
-        '<p class="bz-row">' +
-          '<span>주소 : ' + esc(B.주소) + '</span>' + sep +
-          '<span>전화 : ' + esc(B.전화) + '</span>' + sep +
-          '<span>이메일 : ' + esc(B.이메일) + '</span>' +
-        '</p>' +
-        '<p class="bz-row"><span>개인정보보호책임자 : ' + esc(B.개인정보책임자) + '</span></p>' +
+        row([['상호', B.상호], ['대표자', B.대표자], ['사업자등록번호', B.사업자등록번호],
+             ['통신판매업신고', B.통신판매업신고]]) +
+        row([['사업장 주소', B.주소], ['전화', B.전화], ['이메일', B.이메일]]) +
+        row([['개인정보보호책임자', B.개인정보책임자]]) +
         '<p class="bz-note">결제는 토스페이먼츠를 통해 안전하게 처리되며, ' + esc(B.상호) +
           '은(는) 수강 신청 및 교습 서비스 제공의 당사자로서 책임을 집니다.</p>' +
-        '<p class="bz-copy">© ' + esc(B.서비스명) + '. All rights reserved.</p>' +
+        '<p class="bz-copy">© ' + esc(B.서비스명) + ' · ' + esc(B.상호) + '. All rights reserved.</p>' +
       '</div>';
 
     document.body.appendChild(f);

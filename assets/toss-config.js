@@ -23,6 +23,8 @@ window.BBALTALK_CATALOG = {
     title: '✈️ 여행 생활영어 입문 취미반',
     sub: '소그룹 온라인 · 60분 · 주 2회',
     page: 'class-travel.html',
+    image: '/assets/img/class-travel.jpg',
+    desc: '여행·일상에서 바로 쓰는 생활영어를 소그룹으로 배우는 입문 과정입니다. 주 2회 60분씩 3개월간 원어민 강사와 함께합니다.',
     items: [
       { group: '3개월 24회', name: '3개월 24회 (월 143,000원)', was: 660000, price: 429000, badge: '35%' },
     ],
@@ -32,6 +34,8 @@ window.BBALTALK_CATALOG = {
     title: '🎯 원어민 1:1 맞춤 수업',
     sub: '1:1 온라인 · 개인 목표 맞춤형',
     page: 'class-1on1.html',
+    image: '/assets/img/class-1on1.jpg',
+    desc: '원어민·한국인 강사와 1:1로 진행하는 맞춤형 회화 수업입니다. 수업 시간(50·80분)과 횟수(12·24·48회)를 자유롭게 조합할 수 있습니다.',
     items: [
       { group: '50분 수업', name: '50분 · 12회', was: 720000,  price: 597000,  badge: '17%' },
       { group: '50분 수업', name: '50분 · 24회', was: 1440000, price: 1123000, badge: '22%' },
@@ -71,6 +75,8 @@ window.BBALTALK_CATALOG = {
     title: '🌏 해외진출 고속반',
     sub: '1:1 온라인 · 비즈니스 영어',
     page: 'class-global.html',
+    image: '/assets/img/class-global.jpg',
+    desc: '해외 진출 사업자를 위한 비즈니스 영어 1:1 과정입니다. 제품 소개, 해외 미팅, 협상 상황을 12개월 커리큘럼으로 훈련합니다.',
     items: [
       { group: '50분 수업', name: '50분 · 12회 등록', was: 840000,  price: 756000,  badge: '10%' },
       { group: '50분 수업', name: '50분 · 24회 등록', was: 1680000, price: 1428000, badge: '15%' },

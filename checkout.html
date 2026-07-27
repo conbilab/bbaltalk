@@ -90,7 +90,9 @@
 
     var html = '';
     if (cls.image) {
-      html += '<img class="cls-img" src="' + esc(cls.image) + '" alt="' + esc(cls.title) + ' 수업 이미지" loading="lazy">';
+      // 상품 이미지는 심사 대상이라 지연 로딩(lazy)을 쓰지 않고 즉시 불러옵니다.
+      html += '<img class="cls-img" src="' + esc(cls.image) + '" alt="' + esc(cls.title) + ' 수업 이미지"'
+            + ' decoding="async" onerror="this.style.display=\'none\'">';
     }
     html += '<p class="cls-title">' + esc(cls.title) + '</p>'
           + '<p class="cls-sub">' + esc(cls.sub || '') + '</p>';

@@ -43,10 +43,10 @@
         color:#7a5a5a;line-height:1.65;margin-top:16px}
   .note a{color:var(--red);font-weight:700;text-decoration:none}
   .foot{text-align:center;font-size:12px;color:#bbb;margin-top:22px;line-height:1.7}
-  .soldout{background:#f7f8fa;border:1px solid var(--line);border-radius:12px;padding:14px 15px;
-           font-size:13px;color:#8a8f96;line-height:1.6}
-  .soldout b{display:inline-block;background:#eceff2;color:#5f666d;font-size:11px;font-weight:800;
-             padding:3px 10px;border-radius:20px;margin-bottom:7px}
+  .cls-img{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:14px;
+           background:#f0f1f3;display:block}
+  .cls-desc{font-size:13.5px;color:#5f666d;line-height:1.65;margin:0 0 6px;
+            padding-bottom:12px;border-bottom:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -80,22 +80,22 @@
   order.forEach(function (key) {
     var cls = CATALOG[key];
     if (!cls) return;
+
+    // 정원 마감된 수업은 목록에 넣지 않습니다.
+    // (판매 상품이 없는 빈 카테고리는 카드사 심사 탈락 사유)
+    if (cls.soldOut) return;
+
     var box = document.createElement('div');
     box.className = 'cls';
 
-    var html = '<p class="cls-title">' + esc(cls.title) + '</p>'
-             + '<p class="cls-sub">' + esc(cls.sub || '') + '</p>';
-
-    // 정원 마감된 수업은 결제 버튼 대신 대기 안내
-    if (cls.soldOut) {
-      html += '<div class="soldout">'
-            +   '<b>정원 마감</b>'
-            +   '현재 신청을 받지 않는 수업이에요. 대기 신청을 해주시면 자리가 나는 대로 안내드립니다.'
-            + '</div>'
-            + '<a class="detail" href="/' + esc(cls.page) + '">대기 신청하러 가기 ›</a>';
-      box.innerHTML = html;
-      root.appendChild(box);
-      return;
+    var html = '';
+    if (cls.image) {
+      html += '<img class="cls-img" src="' + esc(cls.image) + '" alt="' + esc(cls.title) + ' 수업 이미지" loading="lazy">';
+    }
+    html += '<p class="cls-title">' + esc(cls.title) + '</p>'
+          + '<p class="cls-sub">' + esc(cls.sub || '') + '</p>';
+    if (cls.desc) {
+      html += '<p class="cls-desc">' + esc(cls.desc) + '</p>';
     }
 
     var lastGroup = null;

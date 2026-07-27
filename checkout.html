@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카드로 결제하기 · 빨톡영어</title>
+<meta name="robots" content="noindex">
+
+<!-- 토스 결제 SDK -->
+<script src="https://js.tosspayments.com/v2/standard"></script>
+<!-- 키 + 가격표 (키는 이 파일이 아니라 toss-config.js 에서 수정!) -->
+<script src="/assets/toss-config.js"></script>
+
+<style>
+  :root{ --red:#e63535; --ink:#1a1a1a; --muted:#8a8f96; --line:#eceff2; --bg:#f6f7f9; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Pretendard',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+       background:var(--bg);color:var(--ink);padding:0 0 60px}
+  header{background:#fff;border-bottom:1px solid var(--line);padding:15px 18px;display:flex;align-items:center;gap:12px;
+         position:sticky;top:0;z-index:5}
+  header a.back{color:var(--ink);text-decoration:none;font-size:24px;line-height:1;font-weight:700}
+  header h1{font-size:17px;margin:0;font-weight:800}
+  .wrap{max-width:560px;margin:0 auto;padding:20px 18px}
+  .lead{font-size:14px;color:var(--muted);line-height:1.65;margin:2px 2px 20px}
+  .lead b{color:var(--red)}
+  .cls{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;
+       box-shadow:0 4px 18px rgba(0,0,0,.03)}
+  .cls-title{font-size:16.5px;font-weight:800;margin:0 0 3px}
+  .cls-sub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+  .grp{font-size:12px;font-weight:800;color:var(--red);background:#fff3f3;display:inline-block;
+       padding:4px 11px;border-radius:20px;margin:12px 0 9px}
+  .item{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;border:1.5px solid var(--line);
+        background:#fff;border-radius:14px;padding:14px 15px;margin-bottom:9px;cursor:pointer;text-align:left;
+        font-family:inherit;transition:.15s}
+  .item:hover{border-color:var(--red);background:#fffafa}
+  .item:active{transform:scale(.99)}
+  .nm{font-size:14.5px;font-weight:700;display:block;margin-bottom:2px}
+  .was{font-size:12px;color:#b9bec4;text-decoration:line-through;margin-right:6px}
+  .bd{font-size:11px;font-weight:800;color:var(--red)}
+  .pr{font-size:17px;font-weight:800;color:var(--red);white-space:nowrap}
+  .detail{display:inline-block;margin-top:8px;font-size:12.5px;color:var(--muted);text-decoration:none;border-bottom:1px dashed #ccc}
+  .note{background:#fff7f7;border:1px solid #f5dede;border-radius:12px;padding:14px 16px;font-size:13px;
+        color:#7a5a5a;line-height:1.65;margin-top:16px}
+  .note a{color:var(--red);font-weight:700;text-decoration:none}
+  .foot{text-align:center;font-size:12px;color:#bbb;margin-top:22px;line-height:1.7}
+  .soldout{background:#f7f8fa;border:1px solid var(--line);border-radius:12px;padding:14px 15px;
+           font-size:13px;color:#8a8f96;line-height:1.6}
+  .soldout b{display:inline-block;background:#eceff2;color:#5f666d;font-size:11px;font-weight:800;
+             padding:3px 10px;border-radius:20px;margin-bottom:7px}
+</style>
+</head>
+<body>
+  <header>
+    <a class="back" href="/index.html" aria-label="홈으로">‹</a>
+    <h1>💳 카드로 결제하기</h1>
+  </header>
+
+  <div class="wrap">
+    <p class="lead">수강하실 <b>수업과 패키지</b>를 선택하시면 카드결제가 진행됩니다.<br>자세한 구성은 각 수업 상세 페이지에서 확인하실 수 있어요.</p>
+    <div id="catalog"></div>
+
+    <div class="note">
+      💡 <b>계좌이체</b>를 원하시면 홈 화면의 “예약/결제 안내”에서 계좌번호로 입금해 주세요.<br>
+      결제·수업 문의는 <a href="https://open.kakao.com/o/spBZLsU" target="_blank" rel="noopener">카카오톡 1:1 상담</a>으로 도와드립니다.
+    </div>
+    <div class="foot">빨톡영어 · 안전한 결제는 토스페이먼츠가 함께합니다</div>
+  </div>
+
+<script src="/assets/toss-pay.js"></script>
+<script>
+(function () {
+  function won(n){ return '₩' + Number(n).toLocaleString('ko-KR'); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
+  var CATALOG = window.BBALTALK_CATALOG || {};
+  var root = document.getElementById('catalog');
+  var order = ['travel','1on1','unlimited','global'];
+
+  order.forEach(function (key) {
+    var cls = CATALOG[key];
+    if (!cls) return;
+    var box = document.createElement('div');
+    box.className = 'cls';
+
+    var html = '<p class="cls-title">' + esc(cls.title) + '</p>'
+             + '<p class="cls-sub">' + esc(cls.sub || '') + '</p>';
+
+    // 정원 마감된 수업은 결제 버튼 대신 대기 안내
+    if (cls.soldOut) {
+      html += '<div class="soldout">'
+            +   '<b>정원 마감</b>'
+            +   '현재 신청을 받지 않는 수업이에요. 대기 신청을 해주시면 자리가 나는 대로 안내드립니다.'
+            + '</div>'
+            + '<a class="detail" href="/' + esc(cls.page) + '">대기 신청하러 가기 ›</a>';
+      box.innerHTML = html;
+      root.appendChild(box);
+      return;
+    }
+
+    var lastGroup = null;
+    (cls.items || []).forEach(function (it) {
+      if (it.group && it.group !== lastGroup && (cls.items.length > 1)) {
+        html += '<div class="grp">' + esc(it.group) + '</div>';
+        lastGroup = it.group;
+      }
+      html += '<button class="item" type="button" data-pay-amount="' + it.price + '"'
+            + ' data-pay-name="' + esc(cls.title.replace(/^\S+\s*/, '') + ' · ' + it.name) + '">'
+            +   '<span>'
+            +     '<span class="nm">' + esc(it.name) + '</span>'
+            +     (it.was ? '<span class="was">' + won(it.was) + '</span>' : '')
+            +     (it.badge ? '<span class="bd">' + esc(it.badge) + ' 할인</span>' : '')
+            +   '</span>'
+            +   '<span class="pr">' + won(it.price) + '</span>'
+            + '</button>';
+    });
+
+    html += '<a class="detail" href="/' + esc(cls.page) + '">패키지 상세 보기 ›</a>';
+    box.innerHTML = html;
+    root.appendChild(box);
+  });
+
+  if (!root.children.length) {
+    root.innerHTML = '<div class="cls"><p class="cls-title">가격표를 불러오지 못했어요</p>'
+      + '<p class="cls-sub">assets/toss-config.js 파일이 올라갔는지 확인해 주세요.</p></div>';
+  }
+})();
+</script>
+</body>
+</html>

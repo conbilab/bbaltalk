@@ -967,6 +967,20 @@ body{background:#eef0f3;padding:24px}
         </tbody>
       </table>
     </div>
+<!-- ===== 카드결제 CTA ===== -->
+<div style="max-width:760px;margin:22px auto 8px;padding:0 16px">
+  <button type="button" data-pay-open="global"
+    style="width:100%;border:0;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#e63535,#ff5a3d);
+           color:#fff;font-size:17px;font-weight:800;padding:17px;border-radius:14px;
+           box-shadow:0 6px 20px rgba(230,53,53,.28);display:flex;align-items:center;justify-content:center;gap:8px">
+    💳 카드로 바로 결제하기
+  </button>
+  <p style="text-align:center;font-size:12.5px;color:#9aa0a6;margin:9px 0 0;line-height:1.6;
+            font-family:Pretendard,system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif">
+    토스페이먼츠 안전결제 · 계좌이체를 원하시면 카카오톡으로 문의해 주세요
+  </p>
+</div>
+
     </div>
   </div>
 
@@ -999,7 +1013,10 @@ body{background:#eef0f3;padding:24px}
   <div class="modal">
     <button class="close" onclick="closeModal('payModal')">&times;</button>
     <h2>💳 수업 예약 / 결제 안내</h2>
-    <div class="mtag">아래 계좌로 입금해 주시면 예약이 확정됩니다.</div>
+    <div class="mtag">카드로 바로 결제하거나, 아래 계좌로 입금해 주세요.</div>
+
+    <a href="javascript:void(0)" data-pay-open="global" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#e63535;color:#fff;text-decoration:none;font-weight:800;font-size:16px;padding:15px;border-radius:12px;margin-bottom:14px;box-shadow:0 4px 14px rgba(230,53,53,.25)">💳 카드로 결제하기</a>
+    <div style="text-align:center;color:#bbb;font-size:12px;margin:0 0 14px">— 또는 계좌이체 —</div>
 
     <div class="pay-box">
       <div class="pay-row"><span>은행</span><b>하나은행</b></div>
@@ -1150,5 +1167,10 @@ document.querySelectorAll('#navMenu a').forEach(function(a){
   document.addEventListener('keydown',function(e){if(e.key==='Escape')window.tpClose();});
 })();
 </script>
+
+<!-- ===== 토스 카드결제 (빨톡영어) ===== -->
+<script src="https://js.tosspayments.com/v2/standard"></script>
+<script src="/assets/toss-config.js"></script>
+<script src="/assets/toss-pay.js"></script>
 </body>
 </html>

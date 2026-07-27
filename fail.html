@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>결제 실패 · 빨톡영어</title>
+<style>
+  :root{ --red:#e63535; --ink:#1a1a1a; --muted:#7a7a7a; --line:#eee; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Pretendard',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+       background:#f6f7f9;color:var(--ink);display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px}
+  .card{background:#fff;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08);max-width:440px;width:100%;padding:38px 30px;text-align:center}
+  .ico{width:74px;height:74px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:38px;background:#fff3f3}
+  h1{font-size:22px;margin:6px 0 8px}
+  p{color:var(--muted);font-size:15px;line-height:1.6;margin:6px 0}
+  .reason{background:#fafafa;border:1px solid var(--line);border-radius:12px;padding:14px;margin:20px 0;text-align:left;font-size:14px}
+  .reason b{display:block;color:var(--red);margin-bottom:4px}
+  .btns{margin-top:22px;display:flex;gap:10px}
+  a.btn{flex:1;text-decoration:none;display:block;padding:14px;border-radius:12px;font-weight:700;font-size:15px}
+  a.home{background:var(--red);color:#fff}
+  a.retry{background:#f0f0f0;color:#333}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="ico">😢</div>
+    <h1>결제가 취소되었어요</h1>
+    <p>결제가 완료되지 않았습니다. 다시 시도하시거나 아래 버튼으로 문의해 주세요.</p>
+    <div class="reason" id="reason" style="display:none"><b id="rcode">사유</b><span id="rmsg"></span></div>
+    <div class="btns">
+      <a class="btn retry" href="javascript:history.back()">다시 시도</a>
+      <a class="btn home" href="/index.html">홈으로</a>
+    </div>
+  </div>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var code = q.get('code');
+    var message = q.get('message');
+    if (code || message) {
+      document.getElementById('reason').style.display = 'block';
+      document.getElementById('rcode').textContent = code || '결제 실패';
+      document.getElementById('rmsg').textContent = message || '';
+    }
+  })();
+</script>
+</body>
+</html>
